@@ -24,24 +24,24 @@ function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 function startQuiz(){
  test=shuffle(BANK).slice(0,25).map(x=>({...x,opts:shuffle([x.correct,...x.wrong])}));
  idx=0;chosen=Array(25).fill(null);
- start.classList.add('hidden');result.classList.add('hidden');review.classList.add('hidden');quiz.classList.remove('hidden');render();
+ document.getElementById('start').classList.add('hidden'); document.getElementById('result').classList.add('hidden'); document.getElementById('review').classList.add('hidden'); document.getElementById('quiz').classList.remove('hidden'); render();
 }
 function render(){
- let x=test[idx]; progress.textContent=`Question ${idx+1} of 25`; q.textContent=x.q; answers.innerHTML='';
- x.opts.forEach(o=>{let b=document.createElement('button');b.textContent=o;if(chosen[idx]===o)b.className='correct';b.onclick=()=>{chosen[idx]=o;render()};answers.appendChild(b)});
- back.disabled=idx===0; next.textContent=idx===24?'Submit Test':'Next →';
+ let x=test[idx]; document.getElementById('progress').textContent=`Question ${idx+1} of 25`; document.getElementById('q').textContent=x.q; document.getElementById('answers').innerHTML='';
+ x.opts.forEach(o=>{let b=document.createElement('button');b.textContent=o;if(chosen[idx]===o)b.className='correct';b.onclick=()=>{chosen[idx]=o;render()};document.getElementById('answers').appendChild(b)});
+ document.getElementById('back').disabled=idx===0; document.getElementById('next').textContent=idx===24?'Submit Test':'Next →';
 }
 function next(){if(chosen[idx]===null){alert('Choose an answer first 🙂');return} if(idx===24){finish()}else{idx++;render()}}
 function prev(){if(idx>0){idx--;render()}}
 function finish(){
  let n=test.reduce((s,x,i)=>s+(chosen[i]===x.correct),0), pct=Math.round(n/25*100);
- quiz.classList.add('hidden');result.classList.remove('hidden');score.textContent=`${n}/25 — ${pct}%`;
- msg.textContent=pct>=80?'Practice goal reached — 80% or better! ✈️':'Keep practicing — the goal is 20/25 (80%) or better.';
+ document.getElementById('quiz').classList.add('hidden'); document.getElementById('result').classList.remove('hidden'); document.getElementById('score').textContent=`${n}/25 — ${pct}%`;
+ document.getElementById('msg').textContent=pct>=80?'Practice goal reached — 80% or better! ✈️':'Keep practicing — the goal is 20/25 (80%) or better.';
 }
 function review(){
- review.innerHTML='<h2>Review</h2>';
+ document.getElementById('review').innerHTML='<h2>Review</h2>';
  test.forEach((x,i)=>{let d=document.createElement('div');d.style='padding:14px 0;border-top:1px solid #e2e8f0';
  let ok=chosen[i]===x.correct;d.innerHTML=`<b>${i+1}. ${x.q}</b><br><span style="color:${ok?'#15803d':'#b91c1c'}">Your answer: ${chosen[i]}</span><br><b>Correct: ${x.correct}</b>`;
- review.appendChild(d)}); review.classList.remove('hidden');
+ document.getElementById('review').appendChild(d)}); document.getElementById('review').classList.remove('hidden');
 }
 </script></body></html>
